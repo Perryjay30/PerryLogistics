@@ -40,10 +40,16 @@ public class CourierServiceImpl implements CourierService {
     private Courier registeringCourier(RegistrationRequest courierRegistrationRequest) {
         Courier courier = new Courier();
         courier.setLastName(courierRegistrationRequest.getLastName());
-        courier.setEmail(courierRegistrationRequest.getEmail());
+        if(courierRepository.findByEmail(courierRegistrationRequest.getEmail()).isPresent())
+            throw new RuntimeException("This email has been taken, kindly register with another email address");
+        else
+            courier.setEmail(courierRegistrationRequest.getEmail());
         courier.setFirstName(courierRegistrationRequest.getFirstName());
         courier.setPassword(courierRegistrationRequest.getPassword());
-        courier.setPhoneNumber(courierRegistrationRequest.getPhoneNumber());
+        if(courierRepository.findByPhoneNumber(courierRegistrationRequest.getPhoneNumber()).isPresent())
+            throw new RuntimeException("This Phone Number has been taken, kindly use another");
+        else
+            courier.setPhoneNumber(courierRegistrationRequest.getPhoneNumber());
         courier.setAddress(courierRegistrationRequest.getAddress());
         return courier;
     }
@@ -59,9 +65,8 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public LoginResponse courierLogin(LoginRequest loginRequest) {
-        Courier registeredCourier = courierRepository.findByEmail(loginRequest.getEmail());
-        if(registeredCourier.getEmail().isEmpty())
-            throw new RuntimeException("Email cannot be found");
+        Courier registeredCourier = courierRepository.findByEmail(loginRequest.getEmail()).
+                orElseThrow(() -> new RuntimeException("Email cannot be found"));
 
         LoginResponse loginResponse = new LoginResponse();
         if(registeredCourier.getPassword().equals(loginRequest.getPassword())) {

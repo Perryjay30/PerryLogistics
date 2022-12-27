@@ -46,9 +46,15 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = new Customer();
         customer.setFirstName(customerRegistrationRequest.getFirstName());
         customer.setLastName(customerRegistrationRequest.getLastName());
-        customer.setEmail(customerRegistrationRequest.getEmail());
+        if(customerRepository.findByEmail(customerRegistrationRequest.getEmail()).isPresent())
+            throw new RuntimeException("This email has been taken, kindly register with another email address");
+        else
+            customer.setEmail(customerRegistrationRequest.getEmail());
         customer.setPassword(customerRegistrationRequest.getPassword());
-        customer.setPhoneNumber(customerRegistrationRequest.getPhoneNumber());
+        if(customerRepository.findByPhoneNumber(customerRegistrationRequest.getPhoneNumber()).isPresent())
+            throw new RuntimeException("This Phone Number has been taken, kindly use another");
+        else
+            customer.setPhoneNumber(customerRegistrationRequest.getPhoneNumber());
         customer.setAddress(customerRegistrationRequest.getAddress());
         return customer;
     }
@@ -63,9 +69,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public LoginResponse customerLogin(LoginRequest loginRequest) {
-        Customer registeredCustomer = customerRepository.findByEmail(loginRequest.getEmail());
-        if(registeredCustomer.getEmail().isEmpty())
-            throw new LogisticsException("Email cannot be found");
+        Customer registeredCustomer = customerRepository.findByEmail(loginRequest.getEmail()).
+                orElseThrow(() -> new LogisticsException("Email cannot be found"));
 
         LoginResponse loginResponse = new LoginResponse();
         if(registeredCustomer.getPassword().equals(loginRequest.getPassword())) {
