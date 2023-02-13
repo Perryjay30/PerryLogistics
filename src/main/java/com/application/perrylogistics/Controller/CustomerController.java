@@ -1,10 +1,9 @@
 package com.application.perrylogistics.Controller;
 
-import com.application.perrylogistics.Data.dtos.Request.LoginRequest;
-import com.application.perrylogistics.Data.dtos.Request.OrderRequest;
-import com.application.perrylogistics.Data.dtos.Request.RegistrationRequest;
-import com.application.perrylogistics.Data.dtos.Request.UpdateRequest;
+import com.application.perrylogistics.Data.dtos.Request.*;
 import com.application.perrylogistics.Service.CustomerService;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,25 +12,41 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("/api/perryLogistics/customer")
-    public ResponseEntity<?> createCustomer(@RequestBody RegistrationRequest customerRegistrationRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).
-                body(customerService.createCustomer(customerRegistrationRequest));
+
+    @PostMapping("/api/perryLogistics/createAccount")
+    public ResponseEntity<?> createAccount(@Valid @RequestBody VerifyOtpRequest verifyOtpRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createAccount(verifyOtpRequest));
     }
 
     @GetMapping("/api/perryLogistics/customer/login")
-    public ResponseEntity<?> customerLogin(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> customerLogin(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(customerService.customerLogin(loginRequest));
     }
 
-    @PatchMapping("/api/perryLogistics/customer/update")
-    public ResponseEntity<?> updateCustomer(@RequestBody UpdateRequest updateCustomerRequest) {
-        return ResponseEntity.ok(customerService.updateCustomer(updateCustomerRequest));
+    @GetMapping("/api/perryLogistics/customer/forgotPassword")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest) throws MessagingException {
+        return ResponseEntity.ok(customerService.forgotPassword(forgotPasswordRequest));
+    }
+
+    @PostMapping("/api/perryLogistics/customer/resetPassword")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
+        return ResponseEntity.ok(customerService.resetPassword(resetPasswordRequest));
+    }
+
+    @PatchMapping("/api/perryLogistics/customer/update/{id}")
+    public ResponseEntity<?> updateCustomer(@Valid @RequestBody @PathVariable String id, UpdateRequest updateCustomerRequest) {
+        return ResponseEntity.ok(customerService.updateCustomer(id, updateCustomerRequest));
+    }
+
+    @PostMapping("/api/perryLogistics/customer/changePassword")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+        return ResponseEntity.ok(customerService.changePassword(changePasswordRequest));
     }
 
     @DeleteMapping("/api/perryLogistics/customer/delete/{id}")
@@ -40,8 +55,10 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.deleteCustomer(id));
     }
 
-    @PostMapping("/api/perryLogistics/customer/order")
-    public ResponseEntity<?> placeOrder(@RequestBody OrderRequest orderRequest) {
-        return ResponseEntity.ok(customerService.placeOrder(orderRequest));
+
+
+    @PostMapping("/api/perryLogistics/customer/order/{id}")
+    public ResponseEntity<?> placeOrder(@Valid @RequestBody @PathVariable String id, OrderRequest orderRequest) {
+        return ResponseEntity.ok(customerService.placeOrder(id, orderRequest));
     }
 }

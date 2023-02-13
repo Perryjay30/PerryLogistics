@@ -11,12 +11,16 @@ import java.util.List;
 
 @Data
 @Document
-public class Customer extends User {
+public class Customer {
     @Id
     private String id;
     private String firstName;
     private String lastName;
     private String address;
+    private String email;
+    private String password;
+    private String phoneNumber;
+    private Status status;
     @DBRef
     private List<Order> customerOrders = new ArrayList<>();
 }

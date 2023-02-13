@@ -1,13 +1,11 @@
 package com.application.perrylogistics.Service;
 
 import com.application.perrylogistics.Data.Models.PackageCategory;
-import com.application.perrylogistics.Data.dtos.Request.LoginRequest;
-import com.application.perrylogistics.Data.dtos.Request.OrderRequest;
-import com.application.perrylogistics.Data.dtos.Request.RegistrationRequest;
-import com.application.perrylogistics.Data.dtos.Request.UpdateRequest;
+import com.application.perrylogistics.Data.dtos.Request.*;
 import com.application.perrylogistics.Data.dtos.Response.LoginResponse;
 import com.application.perrylogistics.Data.dtos.Response.Reciprocation;
 import com.application.perrylogistics.Data.dtos.Response.RegistrationResponse;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +19,14 @@ class CustomerServiceImplTest {
     @Autowired
     private CustomerService customerService;
 
-    private RegistrationRequest customerRegistrationRequest;
-
-    @BeforeEach
-    void setUp() {
-        customerRegistrationRequest = new RegistrationRequest();
-        customerRegistrationRequest.setFirstName("Reynold");
-        customerRegistrationRequest.setLastName("Bellingham");
-        customerRegistrationRequest.setAddress("141, Thompson Highway, Arizona");
-        customerRegistrationRequest.setEmail("eybelling@gmail.com");
-        customerRegistrationRequest.setPassword("Noldham#97");
-        customerRegistrationRequest.setPhoneNumber("09153219609");
-    }
-
     @Test
-    void testThatCustomerCanRegister() {
-        RegistrationResponse customerRegistrationResponse =
-                customerService.createCustomer(customerRegistrationRequest);
-        assertNotNull(customerRegistrationResponse);
-        assertEquals("Customer registered successfully",
-                customerRegistrationResponse.getMessage());
+    void testThatCustomerAccountHasBeenCreated() {
+        VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest();
+        verifyOtpRequest.setToken("0466");
+        verifyOtpRequest.setEmail("eybelling@gmail.com");
+        RegistrationResponse registrationResponse =
+                customerService.createAccount(verifyOtpRequest);
+        assertEquals("Customer registered successfully", registrationResponse.getMessage());
     }
 
     @Test
@@ -53,35 +39,63 @@ class CustomerServiceImplTest {
     }
 
     @Test
+    void testThatCustomerCanChangePassword() {
+        ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
+        changePasswordRequest.setEmail("eybelling@gmail.com");
+        changePasswordRequest.setOldPassword("Noldham#97");
+        changePasswordRequest.setNewPassword("Country@65");
+        Reciprocation resp = customerService.changePassword(changePasswordRequest);
+        assertEquals("Your password has been successfully changed", resp.getMessage());
+    }
+
+    @Test
+    void testThatForgotPasswordMethodWorks() throws MessagingException {
+        ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
+        forgotPasswordRequest.setEmail("eybelling@gmail.com");
+        var response = customerService.forgotPassword(forgotPasswordRequest);
+        assertEquals("Token successfully sent to your email. Please check.", response);
+    }
+
+    @Test
+    void testThatPasswordCanBeResetAfterForgotten() {
+        ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest();
+        resetPasswordRequest.setToken("5829");
+        resetPasswordRequest.setEmail("eybelling@gmail.com");
+        resetPasswordRequest.setPassword("Thewhitecalf#89");
+        resetPasswordRequest.setConfirmPassword("Thewhitecalf#89");
+        Reciprocation answer = customerService.resetPassword(resetPasswordRequest);
+        assertEquals("Your password has been reset successfully", answer.getMessage());
+    }
+
+    @Test
     void testThatCustomerDetailsCanBeUpdated() {
         UpdateRequest updateRequest = new UpdateRequest();
-        updateRequest.setId("63a4fd9a42ac431507e6dbfa");
         updateRequest.setEmail("bellrey@gmail.com");
-        updateRequest.setPhone("07021458930");
+        updateRequest.setPhone("+111 (202) 555-0125");
         updateRequest.setFirstName("Jude");
-        Reciprocation reply = customerService.updateCustomer(updateRequest);
+        updateRequest.setAddress("330, Christian road, Ontario");
+        Reciprocation reply = customerService.updateCustomer("63e8f10d8332c9473944ce6a", updateRequest);
         assertEquals("Customer has been updated", reply.getMessage());
     }
 
     @Test
     void testThatCustomerCanBeDeleted() {
         Reciprocation deleteReply =
-                customerService.deleteCustomer("63a33b5331a8a97d85a87d95");
+                customerService.deleteCustomer("63e8f10d8332c9473944ce6a");
         assertEquals("Delete successful", deleteReply.getMessage());
     }
 
     @Test
     void testThatCustomerCanPlaceOrder() {
         OrderRequest orderRequest = new OrderRequest();
-        orderRequest.setCustomerId("63a843866d0b715d70db63db");
         orderRequest.setReceiverName("Steph Curry");
         orderRequest.setReceiverEmail("stephCurrie@gmail.com");
         orderRequest.setPackageCategory(PackageCategory.FRAGILE);
         orderRequest.setWeight(27.18);
         orderRequest.setPickUpAddress("101, Old Church Road, LA, USA");
         orderRequest.setDestination("34, Washington Street, Washington DC, USA");
-        orderRequest.setReceiverPhoneNumber("041-6758-540");
-        Reciprocation response = customerService.placeOrder(orderRequest);
+        orderRequest.setReceiverPhoneNumber("+234 (083) 921-0482");
+        Reciprocation response = customerService.placeOrder("63e8f10d8332c9473944ce6a", orderRequest);
         assertEquals("You have placed an order successfully", response.getMessage());
     }
 }

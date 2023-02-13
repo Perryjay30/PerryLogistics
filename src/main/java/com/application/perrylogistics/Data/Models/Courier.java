@@ -6,10 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-public class Courier extends User {
+public class Courier {
     @Id
     private String id;
     private String firstName;
     private String lastName;
     private String address;
+    private String email;
+    private String password;
+    private String phoneNumber;
+    private Status status;
 }

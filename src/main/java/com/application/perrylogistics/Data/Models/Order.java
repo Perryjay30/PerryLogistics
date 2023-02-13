@@ -16,7 +16,7 @@ public class Order {
     private String receiverName;
     private String receiverPhoneNumber;
     private String receiverEmail;
-    private final double price = 1000.00;
+    private double price = 1000.00;
     private double weight;
     private double amountToPay;
 }

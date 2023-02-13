@@ -47,7 +47,7 @@ class OrderServiceImplTest {
     @Test
     void testThatOrderCanBeUpdated() {
         UpdateOrderRequest updateOrderRequest = new UpdateOrderRequest();
-        updateOrderRequest.setId("63a5048646798a6ec84a6150");
+        updateOrderRequest.setId("63af43138eb0b95522b209e7");
         updateOrderRequest.setReceiverEmail("michealOkpoyi@gmail.com");
         updateOrderRequest.setDestination("123, Downhill road, sydney, Australia");
         updateOrderRequest.setPackageName("Mercedes E-Class");

@@ -1,22 +1,30 @@
 package com.application.perrylogistics.Service;
 
-import com.application.perrylogistics.Data.dtos.Request.OrderRequest;
-import com.application.perrylogistics.Data.dtos.Request.RegistrationRequest;
-import com.application.perrylogistics.Data.dtos.Request.LoginRequest;
-import com.application.perrylogistics.Data.dtos.Request.UpdateRequest;
+import com.application.perrylogistics.Data.dtos.Request.*;
 import com.application.perrylogistics.Data.dtos.Response.LoginResponse;
 import com.application.perrylogistics.Data.dtos.Response.Reciprocation;
 import com.application.perrylogistics.Data.dtos.Response.RegistrationResponse;
+import jakarta.mail.MessagingException;
 
 public interface CustomerService {
-    RegistrationResponse createCustomer
-            (RegistrationRequest customerRegistrationRequest);
+
+    RegistrationResponse createAccount(VerifyOtpRequest verifyOtpRequest);
+
+    void verifyOTP(VerifyOtpRequest verifyOtpRequest);
+
+    String forgotPassword(ForgotPasswordRequest forgotPasswordRequest) throws MessagingException;
+
+    Reciprocation resetPassword(ResetPasswordRequest resetPasswordRequest);
+
+    Reciprocation changePassword(ChangePasswordRequest changePasswordRequest);
+
+    String sendOTP(SendOtpRequest sendOtpRequest);
 
     LoginResponse customerLogin(LoginRequest loginRequest);
 
-    Reciprocation updateCustomer(UpdateRequest updateCustomerRequest);
+    Reciprocation updateCustomer(String id, UpdateRequest updateCustomerRequest);
 
     Reciprocation deleteCustomer(String id);
 
-    Reciprocation placeOrder(OrderRequest orderRequest);
+    Reciprocation placeOrder(String id, OrderRequest orderRequest);
 }

@@ -19,8 +19,13 @@ import static com.application.perrylogistics.Data.Models.PackageCategory.FRAGILE
 @Service
 public class OrderServiceImpl implements OrderService {
 
+
+    private final OrderRepository orderRepository;
+
     @Autowired
-    private OrderRepository orderRepository;
+    public OrderServiceImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @Override
     public OrderResponse createOrder(OrderRequest orderRequest) {

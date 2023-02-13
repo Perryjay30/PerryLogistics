@@ -1,11 +1,10 @@
 package com.application.perrylogistics.Service;
 
-import com.application.perrylogistics.Data.dtos.Request.LoginRequest;
-import com.application.perrylogistics.Data.dtos.Request.RegistrationRequest;
-import com.application.perrylogistics.Data.dtos.Request.UpdateRequest;
+import com.application.perrylogistics.Data.dtos.Request.*;
 import com.application.perrylogistics.Data.dtos.Response.LoginResponse;
 import com.application.perrylogistics.Data.dtos.Response.Reciprocation;
 import com.application.perrylogistics.Data.dtos.Response.RegistrationResponse;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +18,26 @@ class CourierServiceImplTest {
     @Autowired
     private CourierService courierService;
 
-    private RegistrationRequest courierRegistrationRequest;
-
-    @BeforeEach
-    void setUp() {
-        courierRegistrationRequest = new RegistrationRequest();
+    @Test
+    void testThatCourierCanRegister() {
+        RegistrationRequest courierRegistrationRequest = new RegistrationRequest();
         courierRegistrationRequest.setFirstName("MacAllister");
         courierRegistrationRequest.setLastName("Spenser");
-        courierRegistrationRequest.setAddress("275, Octavio Crescent, Alabama");
         courierRegistrationRequest.setEmail("macSpenser@gmail.com");
         courierRegistrationRequest.setPassword("Wilnock@23");
-        courierRegistrationRequest.setPhoneNumber("09164314587");
+        String response =
+                courierService.register(courierRegistrationRequest);
+        assertEquals("Token successfully sent to your email. Please check.", response);
     }
 
     @Test
-    void testThatCourierCanRegister() {
-        RegistrationResponse customerRegistrationResponse =
-                courierService.createCourier(courierRegistrationRequest);
-        assertNotNull(customerRegistrationResponse);
-        assertEquals("Courier registered successfully",
-                customerRegistrationResponse.getMessage());
+    void testThatCustomerAccountHasBeenCreated() {
+        VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest();
+        verifyOtpRequest.setToken("4598");
+        verifyOtpRequest.setEmail("macSpenser@gmail.com");
+        RegistrationResponse registrationResponse =
+                courierService.createCourier(verifyOtpRequest);
+        assertEquals("Courier registered successfully", registrationResponse.getMessage());
     }
 
     @Test
@@ -51,20 +50,48 @@ class CourierServiceImplTest {
     }
 
     @Test
+    void testThatCourierCanChangePassword() {
+        ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
+        changePasswordRequest.setEmail("macSpenser@gmail.com");
+        changePasswordRequest.setOldPassword("Wilnock@23");
+        changePasswordRequest.setNewPassword("Johnwick!00");
+        Reciprocation resp = courierService.changePassword(changePasswordRequest);
+        assertEquals("Your password has been successfully changed", resp.getMessage());
+    }
+
+    @Test
+    void testThatForgotPasswordMethodWorks() throws MessagingException {
+        ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
+        forgotPasswordRequest.setEmail("macSpenser@gmail.com");
+        var response = courierService.forgotPassword(forgotPasswordRequest);
+        assertEquals("Token successfully sent to your email. Please check.", response);
+    }
+
+    @Test
+    void testThatPasswordCanBeResetAfterForgotten() {
+        ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest();
+        resetPasswordRequest.setToken("9325");
+        resetPasswordRequest.setEmail("macSpenser@gmail.com");
+        resetPasswordRequest.setPassword("Theblackeagle#41");
+        resetPasswordRequest.setConfirmPassword("Theblackeagle#41");
+        Reciprocation answer = courierService.resetPassword(resetPasswordRequest);
+        assertEquals("Your password has been reset successfully", answer.getMessage());
+    }
+
+    @Test
     void testThatCourierCanBeUpdated() {
         UpdateRequest updateRequest = new UpdateRequest();
-        updateRequest.setId("63a345140115de3a66d037c3");
-        updateRequest.setEmail("nightingale@gmail.com");
-        updateRequest.setPhone("07098673324");
+        updateRequest.setEmail("ghostwalker@gmail.com");
+        updateRequest.setPhone("+234 (816) 425-9071");
         updateRequest.setFirstName("Trossard");
-        Reciprocation reply = courierService.updateCourier(updateRequest);
+        Reciprocation reply = courierService.updateCourier("63e9053e667c017340ad91d5", updateRequest);
         assertEquals("Courier has been updated", reply.getMessage());
     }
 
     @Test
     void testThatCourierCanBeDeleted() {
         Reciprocation deleteReply =
-                courierService.deleteCourier("63a345140115de3a66d037c3");
+                courierService.deleteCourier("63e9053e667c017340ad91d5");
         assertEquals("Courier deleted", deleteReply.getMessage());
     }
 }
