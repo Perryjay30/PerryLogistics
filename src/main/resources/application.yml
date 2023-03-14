@@ -1,17 +1,19 @@
 spring:
   mail:
-    host: localhost
-    port: 1025
-    username: hello
-    password: hello
+    host: smtp.gmail.com
+    port: 465
+    username: pelumijsh@gmail.com
+    password: rarmcmleyllrdoze
     properties:
       mail:
         smtp:
-          ssl:
-            trust: "*"
+#          ssl:
+#            trust: "*"
           auth: true
           starttls:
             enable: true
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+          ssl:
+            enable: true
