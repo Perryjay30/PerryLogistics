@@ -1,6 +1,7 @@
 spring:
   datasource:
     url: mongodb://localhost:27017/capstoneHotels
+    driver-class-name: com.mongodb
   mongodb:
     init:
       mode: always
