@@ -17,7 +17,10 @@ spring:
             enable: true
             trust: "*"
 
-
+  MONGO_URL=mongodb://localhost:27017
+  mongodb:
+    jdbc:
+      MongoDriver:
 #spring.mail.host=localhost
 #spring.mail.port=1025
 #spring.mail.username=hello
