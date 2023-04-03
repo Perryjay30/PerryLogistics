@@ -21,8 +21,8 @@ class CustomerServiceImplTest {
     @Test
     void testThatCustomerAccountHasBeenCreated() {
         VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest();
-        verifyOtpRequest.setToken("0466");
-        verifyOtpRequest.setEmail("eybelling@gmail.com");
+        verifyOtpRequest.setToken("9084");
+        verifyOtpRequest.setEmail("o.taiwo@native.semicolon.africa");
         RegistrationResponse registrationResponse =
                 customerService.createAccount(verifyOtpRequest);
         assertEquals("Customer registered successfully", registrationResponse.getMessage());
@@ -31,7 +31,7 @@ class CustomerServiceImplTest {
     @Test
     void testThatCustomerCanLogin() {
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("eybelling@gmail.com");
+        loginRequest.setEmail("o.taiwo@native.semicolon.africa");
         loginRequest.setPassword("Noldham#97");
         LoginResponse loginResponse = customerService.customerLogin(loginRequest);
         assertEquals("Login is successful", loginResponse.getMessage());
@@ -50,7 +50,7 @@ class CustomerServiceImplTest {
     @Test
     void testThatForgotPasswordMethodWorks() throws MessagingException {
         ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest();
-        forgotPasswordRequest.setEmail("eybelling@gmail.com");
+        forgotPasswordRequest.setEmail("o.taiwo@native.semicolon.africa");
         var response = customerService.forgotPassword(forgotPasswordRequest);
         assertEquals("Token successfully sent to your email. Please check.", response);
     }
@@ -58,8 +58,8 @@ class CustomerServiceImplTest {
     @Test
     void testThatPasswordCanBeResetAfterForgotten() {
         ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest();
-        resetPasswordRequest.setToken("5829");
-        resetPasswordRequest.setEmail("eybelling@gmail.com");
+        resetPasswordRequest.setToken("7699");
+        resetPasswordRequest.setEmail("o.taiwo@native.semicolon.africa");
         resetPasswordRequest.setPassword("Thewhitecalf#89");
         resetPasswordRequest.setConfirmPassword("Thewhitecalf#89");
         Reciprocation answer = customerService.resetPassword(resetPasswordRequest);

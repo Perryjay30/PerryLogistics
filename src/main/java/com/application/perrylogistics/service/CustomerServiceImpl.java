@@ -117,6 +117,7 @@ public class CustomerServiceImpl implements CustomerService {
         return new Reciprocation("Your password has been successfully changed");
     }
 
+
     @Override
     public String sendOTP(SendOtpRequest sendOtpRequest) {
         Customer savedCustomer = customerRepository.findByEmail(sendOtpRequest.getEmail())
@@ -167,8 +168,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private void updatingCustomer(UpdateRequest updateCustomerRequest, Customer updateCustomer) {
-        updateCustomer.setPassword(updateCustomerRequest.getPassword() != null && !updateCustomerRequest.getPassword()
-                .equals("") ? updateCustomerRequest.getPassword() : updateCustomer.getPassword());
         updateCustomer.setEmail(updateCustomerRequest.getEmail() != null && !updateCustomerRequest.getEmail().equals("")
                 ? updateCustomerRequest.getEmail() : updateCustomer.getEmail());
         updateCustomer.setAddress(updateCustomerRequest.getAddress() != null && !updateCustomerRequest.getAddress()

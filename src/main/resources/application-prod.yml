@@ -1,0 +1,4 @@
+spring:
+  mongodb:
+    init:
+      mode: always
