@@ -1,4 +1,12 @@
 spring:
+  datasource:
+    url: mongodb://mongo:IjLSFYpSoT6g81cOHbF5@containers-us-west-189.railway.app:6936
+    #    driver-class-name: com.mongodb
+  mongodb:
+    init:
+       mode: always
+
+
   mail:
     host: localhost
     port: 1025
