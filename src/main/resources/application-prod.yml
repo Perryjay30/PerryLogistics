@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: mongodb://localhost:27017
+    url: mongodb://mongo:IjLSFYpSoT6g81cOHbF5@containers-us-west-189.railway.app:6936
 #    driver-class-name: com.mongodb
   mongodb:
     init:
