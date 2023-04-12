@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: mongodb://mongo:IjLSFYpSoT6g81cOHbF5@containers-us-west-189.railway.app:6936
+    url: mongodb+srv://pelumijsh:Oluwapelumi@cluster0.7b2ybts.mongodb.net/?retryWrites=true&w=majority
 #    driver-class-name: com.mongodb
   mongodb:
     init:
