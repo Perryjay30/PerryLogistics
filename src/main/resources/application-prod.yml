@@ -1,26 +1,7 @@
-#spring:
-#  datasource:
-#    url: mongodb://mongo:IjLSFYpSoT6g81cOHbF5@containers-us-west-189.railway.app:6936
-##    driver-class-name: com.mongodb
-#  mongodb:
-#    init:
-#      mode: always
-#
-#
-#  mail:
-#    host: localhost
-#    port: 1025
-#    username: hello
-#    password: hello
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
-#          connectiontimeout: 5000
-#          timeout: 3000
-#          writetimeout: 5000
-#          ssl:
-#            enable: true
-#            trust: "*"
+spring:
+  datasource:
+    url: mongodb://mongo:IjLSFYpSoT6g81cOHbF5@containers-us-west-189.railway.app:6936
+#    driver-class-name: com.mongodb
+  mongodb:
+    init:
+      mode: always
