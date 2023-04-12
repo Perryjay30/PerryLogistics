@@ -1,7 +1,12 @@
 spring:
   datasource:
-    url: mongodb+srv://pelumijsh:Oluwapelumi@cluster0.7b2ybts.mongodb.net/?retryWrites=true&w=majority
+    url: mongodb://mongo:pq7x0zIaDwfe2VM7A1ud@containers-us-west-158.railway.app:6244
 #    driver-class-name: com.mongodb
   mongodb:
     init:
       mode: always
+
+#      mongodb+srv://pelumijsh:Oluwapelumi@cluster0:
+#        7b2ybts:
+#          mongodb:
+##            net/?retryWrites=true&w=majority:
