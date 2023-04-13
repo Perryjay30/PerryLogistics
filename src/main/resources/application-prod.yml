@@ -1,7 +1,6 @@
 spring:
   data:
     mongodb:
-      database: ${MONGODB_DB}
       uri: ${MONGODB_URI}
       password: ${MONGODB_PASSWORD}
       port: ${MONGODB_PORT}
