@@ -1,11 +1,12 @@
 spring:
   data:
     mongodb:
+      database: ${MONGODB_DB}
       uri: ${MONGODB_URI}
-      password: ${MONGODB_PASSWORD}
-      port: ${MONGODB_PORT}
-      host: ${MONGODB_HOST}
-      username: ${MONGODB_USERNAME}
+#      password: ${MONGODB_PASSWORD}
+#      port: ${MONGODB_PORT}
+#      host: ${MONGODB_HOST}
+#      username: ${MONGODB_USERNAME}
 
 
 #      mongodb+srv://pelumijsh:Oluwapelumi@cluster0:
