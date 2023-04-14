@@ -1,12 +1,15 @@
 spring:
   mail:
-    host: localhost
-    port: 1025
-    username: hello
-    password: hello
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
     properties:
       mail:
         smtp:
+          #          ssl:
+          #            trust: "*"
           auth: true
           starttls:
             enable: true
@@ -15,30 +18,6 @@ spring:
           writetimeout: 5000
           ssl:
             enable: true
-            trust: "*"
-
-
-#
-#spring:
-#  mail:
-#    host: ${MAIL_HOST}
-#    port: ${MAIL_PORT}
-#    username: ${MAIL_USERNAME}
-#    password: ${MAIL_PASSWORD}
-#
-#    properties:
-#      mail:
-#        smtp:
-#          #          ssl:
-#          #            trust: "*"
-#          auth: true
-#          starttls:
-#            enable: true
-#          connectiontimeout: 5000
-#          timeout: 3000
-#          writetimeout: 5000
-#          ssl:
-#            enable: true
 
 #spring.mail.host=localhost
 #spring.mail.port=1025
